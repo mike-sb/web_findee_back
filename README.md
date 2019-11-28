@@ -1,6 +1,6 @@
 # Findee Server API
 
-**POST /register** Регистрация пользователя
+**1) POST /register** Регистрация пользователя
 * req:
   * username: почта пользователя (логин). String
   * password: пароль пользователя. String
@@ -10,7 +10,7 @@
     * username: почта пользователя (логин). String
     * token-access: токен аутентификации. String
 
-**POST /login** Авторизация пользователя
+**2) GET /login** Авторизация пользователя
 * req:
   * username: почта пользователя (логин). String
   * password: пароль пользователя. String
