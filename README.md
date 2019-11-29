@@ -1,6 +1,8 @@
 # Findee Server API
 Для запуска требуется в одной папке с файлом requirements.txt прописать команду:
-```bashpip install -r requirements.txt```
+```bash 
+pip install -r requirements.txt
+```
 
 
 **1) POST /register** Регистрация пользователя
