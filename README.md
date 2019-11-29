@@ -1,6 +1,7 @@
 # Findee Server API
-Для запуска требуется в одной папке с файлом requirements.txt прописать команду
+Для запуска требуется в одной папке с файлом requirements.txt прописать команду:
 > pip install -r requirements.txt
+
 
 **1) POST /register** Регистрация пользователя
 * req:
