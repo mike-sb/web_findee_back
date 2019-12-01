@@ -6,40 +6,42 @@ pip install -r requirements.txt
 
 **1) POST /register** Регистрация пользователя
 * req:
-  * username: почта пользователя (логин). String
-  * password: пароль пользователя. String
-* resp:
-  * user
-    * id: id пользователя. Number
     * username: почта пользователя (логин). String
-    * token-access: токен аутентификации. String
+    * password: пароль пользователя. String
+* resp:
+    * user
+        * id: id пользователя. Number
+        * username: почта пользователя (логин). String
+        * token-access: токен аутентификации. String
 
 
 **2) GET /login** Авторизация пользователя
 * req:
-  * username: почта пользователя (логин). String
-  * password: пароль пользователя. String
+    * username: почта пользователя (логин). String
+    * password: пароль пользователя. String
 * resp:
-  * user
-      * id: id пользователя. Number
-      * username: почта пользователя (логин). String
-      * token-access: токен аутентификации. String
+    * user
+        * id: id пользователя. Number
+        * username: почта пользователя (логин). String
+        * token-access: токен аутентификации. String
 
 
 **3) POST /profile/create** Создание профиля пользователя
 * req:
-  * name: имя пользователя. String
-  * surname: фамилия. String
-  * patronymic: отчество. String
-  * kind: класс ("client" или "specialist"). String
-  * regions: регион(-ы). String
-  * phone: номер телефона. String
-  * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
-  * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
+    * name: имя пользователя. String
+    * surname: фамилия. String
+    * patronymic: отчество. String
+    * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
+    * kind: класс ("client" или "specialist"). String
+    * regions: регион(-ы). String
+    * phone: номер телефона. String
+    * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
+    * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
 * resp:
     * name: имя пользователя. String
     * surname: фамилия. String
     * patronymic: отчество. String
+    * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
     * kind: класс ("client" или "specialist"). String
     * regions: регион(-ы). String
     * phone: номер телефона. String
@@ -58,6 +60,8 @@ pip install -r requirements.txt
     * name: имя пользователя. String
     * surname: фамилия. String
     * patronymic: отчество. String
+    * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
+    * photo: аватарка пользователя. Url
     * kind: класс ("client" или "specialist"). String
     * regions: регион(-ы). String
     * phone: номер телефона. String
@@ -69,16 +73,19 @@ pip install -r requirements.txt
 **5) PATCH /profile/int:user_id/update** Изменение профиля пользователя
 * req:
     > Если пользователь неверифицирован доступны такие данные для изменения:
+
     * name?: имя пользователя. String
     * surname?: фамилия. String
     * patronymic?: отчество. String
+    * birth_date?: дата рождения. String. в формате ГГГГ-ММ-ДД
+    * photo?: аватарка пользователя. File
     * kind?: класс ("client" или "specialist"). String
     * regions?: регион(-ы). String
     * phone?: номер телефона. String
     * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
     * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
 
-    > Если пользователь верифицирован запрещено изменять ФИО
+    > Если пользователь верифицирован запрещено изменять ФИО и дату рождения
 * resp:
     * user:
         * id: id пользователя. Number
@@ -86,6 +93,8 @@ pip install -r requirements.txt
     * name: имя пользователя. String
     * surname: фамилия. String
     * patronymic: отчество. String
+    * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
+    * photo: аватарка пользователя. Url
     * kind: класс ("client" или "specialist"). String
     * regions: регион(-ы). String
     * phone: номер телефона. String

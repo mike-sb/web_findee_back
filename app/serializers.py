@@ -55,9 +55,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'user', 'name', 'surname', 
-            'patronymic', 'kind', 'regions', 
-            'phone', 'company', 'categories', 
-            'verify'
+            'patronymic', 'birth_date', 'photo', 
+            'kind', 'regions', 'phone', 
+            'company', 'categories', 'verify'
         ]
 
 
@@ -68,8 +68,9 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'name', 'surname', 'patronymic', 
-            'kind', 'regions', 'phone', 
-            'company', 'categories', 'verify'
+            'birth_date', 'kind', 'regions', 
+            'phone', 'company', 'categories', 
+            'verify'
         ]
 
     def create(self, validated_data):
@@ -86,15 +87,15 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'user', 'name', 'surname', 
-            'patronymic', 'kind', 'regions', 
-            'phone', 'company', 'categories', 
-            'verify'
+            'patronymic', 'birth_date', 'photo',
+            'kind', 'regions', 'phone', 
+            'company', 'categories', 'verify'
         ]
 
     def validate(self, data):
         if self.context['request'].user.profile.verify:
-            if 'name' in data or 'surname' in data or 'patronymic' in data or 'verify' in data:
-                raise serializers.ValidationError("Вы не можете изменить ФИО")
+            if 'name' in data or 'surname' in data or 'patronymic' in data or 'birth_date' in data:
+                raise serializers.ValidationError("Вы не можете изменить ФИО или дату рождения")
         else:
             if 'verify' in data:
                 raise serializers.ValidationError("Ошибка")
