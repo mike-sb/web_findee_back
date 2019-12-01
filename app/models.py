@@ -5,7 +5,7 @@ from .choices import CATEGORIES, KIND_CHOICES
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, verbose_name="User", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="Пользователь", related_name="profile", on_delete=models.CASCADE)
     name = models.CharField("Имя", max_length=30)
     surname = models.CharField("Фамилия", max_length=30)
     patronymic = models.CharField("Отчество", max_length=30)
@@ -14,6 +14,7 @@ class Profile(models.Model):
     phone = models.CharField("Телефон", max_length=15)
 
     # Для специалистов
+    verify = models.BooleanField("Верифицирован", default=False)
     company = models.CharField("Организация", max_length=100, blank=True, null=True)
     categories = models.CharField("Выберите направление", blank=True, null=True, max_length=200, choices=CATEGORIES)
 
