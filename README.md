@@ -66,7 +66,7 @@ pip install -r requirements.txt
     * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")  
 
 
-**5) PATCH | PUT /profile/int:user_id/update** Изменение профиля пользователя
+**5) PATCH /profile/int:user_id/update** Изменение профиля пользователя
 * req:
     > Если пользователь неверифицирован доступны такие данные для изменения:
     * name?: имя пользователя. String
