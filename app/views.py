@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import (
     UserSerializer, RegisterSerializer, 
     AuthSerializer, ProfileSerializer,
-    ProfileCreateSerializer
+    ProfileCreateSerializer, ProfileUpdateSerializer
 )
 from .models import Profile
 from .permissions import IsOwner
@@ -81,6 +81,6 @@ class ProfileUpdate(generics.UpdateAPIView):
     # Обновление профиля юзера
 
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileUpdateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwner]
     lookup_field = 'user__id'

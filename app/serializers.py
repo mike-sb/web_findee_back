@@ -46,6 +46,21 @@ class AuthSerializer(serializers.Serializer):
         raise serializers.ValidationError("Неверные данные")
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    # Профиль юзера
+
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = [
+            'user', 'name', 'surname', 
+            'patronymic', 'kind', 'regions', 
+            'phone', 'company', 'categories', 
+            'verify'
+        ]
+
+
 class ProfileCreateSerializer(serializers.ModelSerializer):
     # Создание профиля юзера
     
@@ -62,8 +77,8 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         return profile
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    # Профиль юзера
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    # Изменение профиля юзера
 
     user = UserSerializer()
 
@@ -75,3 +90,13 @@ class ProfileSerializer(serializers.ModelSerializer):
             'phone', 'company', 'categories', 
             'verify'
         ]
+
+    def validate(self, data):
+        if self.context['request'].user.profile.verify:
+            if 'name' in data or 'surname' in data or 'patronymic' in data or 'verify' in data:
+                raise serializers.ValidationError("Вы не можете изменить ФИО")
+        else:
+            if 'verify' in data:
+                raise serializers.ValidationError("Ошибка")
+
+        return data
