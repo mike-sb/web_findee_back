@@ -57,7 +57,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'user', 'name', 'surname', 
             'patronymic', 'birth_date', 'photo', 
             'kind', 'regions', 'phone', 
-            'company', 'categories', 'verify'
+            'company', 'categories', 'about',
+            'verify', 'premium'
         ]
 
 
@@ -69,8 +70,7 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         fields = [
             'name', 'surname', 'patronymic', 
             'birth_date', 'kind', 'regions', 
-            'phone', 'company', 'categories', 
-            'verify'
+            'phone', 'company', 'categories'
         ]
 
     def create(self, validated_data):
@@ -89,15 +89,16 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'user', 'name', 'surname', 
             'patronymic', 'birth_date', 'photo',
             'kind', 'regions', 'phone', 
-            'company', 'categories', 'verify'
+            'company', 'categories', 'about',
+            'verify', 'premium'
         ]
 
     def validate(self, data):
+        ban = ['name', 'surname', 'patronymic', 'birth_date', 'premium']
+        
         if self.context['request'].user.profile.verify:
-            if 'name' in data or 'surname' in data or 'patronymic' in data or 'birth_date' in data:
-                raise serializers.ValidationError("Вы не можете изменить ФИО или дату рождения")
-        else:
-            if 'verify' in data:
-                raise serializers.ValidationError("Ошибка")
+            for field in ban:
+                if field in data:
+                    raise serializers.ValidationError("Вы не можете изменить ФИО или дату рождения")
 
         return data

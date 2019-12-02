@@ -47,7 +47,6 @@ pip install -r requirements.txt
     * phone: номер телефона. String
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
-    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")  
 
 
 **4) GET /profile/int:user_id/** Данные о профиле пользователя
@@ -67,7 +66,9 @@ pip install -r requirements.txt
     * phone: номер телефона. String
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
-    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")  
+    * about: о себе. String
+    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
+    * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client") 
 
 
 **5) PATCH /profile/int:user_id/update** Изменение профиля пользователя
@@ -84,6 +85,7 @@ pip install -r requirements.txt
     * phone?: номер телефона. String
     * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
     * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
+    * about?: о себе. String
 
     > Если пользователь верифицирован запрещено изменять ФИО и дату рождения
 * resp:
@@ -100,4 +102,6 @@ pip install -r requirements.txt
     * phone: номер телефона. String
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
-    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")  
+    * about: о себе. String
+    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
+    * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client")  

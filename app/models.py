@@ -15,9 +15,13 @@ class Profile(models.Model):
     regions = models.CharField("Регионы", max_length=100)
     phone = models.CharField("Телефон", max_length=15)
 
+    # Дополнительно
+    about = models.TextField("О себе", blank=True)
+
     # Для специалистов
     verify = models.BooleanField("Верифицирован", default=False)
-    company = models.CharField("Организация", max_length=100, blank=True, null=True)
+    premium = models.BooleanField("Премиум аккаунт", default=False)
+    company = models.CharField("Организация", max_length=100, null=True, blank=True)
     categories = models.CharField("Направления", blank=True, null=True, max_length=200, choices=CATEGORIES)
 
     def __str__(self):
