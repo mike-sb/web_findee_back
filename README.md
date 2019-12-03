@@ -2,6 +2,7 @@
 Для запуска требуется в одной папке с файлом requirements.txt прописать команду:
 ```bash 
 pip install -r requirements.txt
+python3 manage.py migrate
 ```
 
 **1) POST /register** Регистрация пользователя
