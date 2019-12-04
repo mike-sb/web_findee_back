@@ -10,7 +10,7 @@ class Profile(models.Model):
     surname = models.CharField("Фамилия", max_length=30)
     patronymic = models.CharField("Отчество", max_length=30)
     birth_date = models.DateField("Дата рождения")
-    photo = models.ImageField("Фото", upload_to="profile_photo/%Y/%m/%d", default="default.jpg")
+    photo = models.ImageField("Главное фото", upload_to="profile_photo/%Y/%m/%d", default="default.jpg")
     kind = models.CharField("Клиент или специалист", max_length=20, choices=KIND_CHOICES)
     regions = models.CharField("Регионы", max_length=100)
     phone = models.CharField("Телефон", max_length=15)
@@ -30,3 +30,12 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
+
+
+class Image(models.Model):
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="images", 
+        verbose_name="Профиль", blank=True, null=True
+    )
+    text = models.TextField("Описание фотографии", blank=True, null=True)
+    image = models.ImageField("Фотография", upload_to="portfolio_images/%Y/%m/%d")

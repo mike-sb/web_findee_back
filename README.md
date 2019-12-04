@@ -2,6 +2,8 @@
 Для запуска требуется в одной папке с файлом requirements.txt прописать команду:
 ```bash 
 pip install -r requirements.txt
+py manage.py migrate
+py manage.py runserver
 ```
 
 **1) POST /register** Регистрация пользователя
@@ -67,6 +69,10 @@ pip install -r requirements.txt
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
     * about: о себе. String
+    * images: картинки в портфолио
+        * id: id картинки. Number
+        * image: ссылка на саму картинку. Url
+        * text: описание картинки. String 
     * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
     * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client") 
 
@@ -79,13 +85,17 @@ pip install -r requirements.txt
     * surname?: фамилия. String
     * patronymic?: отчество. String
     * birth_date?: дата рождения. String. в формате ГГГГ-ММ-ДД
-    * photo?: аватарка пользователя. File
+    * photo?: аватарка пользователя. File (image)
     * kind?: класс ("client" или "specialist"). String
     * regions?: регион(-ы). String
     * phone?: номер телефона. String
     * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
     * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
     * about?: о себе. String
+    * images?: картинки в портфолио
+        * id: id картинки. Number
+        * image: ссылка на саму картинку. Url
+        * text: описание картинки. String 
 
     > Если пользователь верифицирован запрещено изменять ФИО и дату рождения
 * resp:
@@ -103,5 +113,45 @@ pip install -r requirements.txt
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
     * about: о себе. String
+    * images: картинки в портфолио
+        * id: id картинки. Number
+        * image: ссылка на саму картинку. Url
+        * text: описание картинки. String 
     * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
     * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client")  
+
+
+**6) POST /image/create** Создание картинки в портфолио специалиста
+* req:
+    * image: сама картинка. File (image)
+    * text: описание картинки. String
+* resp:
+    * id: id картинки. Number
+    * image: ссылка на саму картинку. Url
+    * text: описание картинки. String
+
+
+**7) GET /image/int:id** Получение данных о картинки в портфолио
+* req:
+    * -
+* resp:
+    * id: id картинки. Number
+    * image: ссылка на саму картинку. Url
+    * text: описание картинки. String
+
+
+**8) PATCH /image/int:id/update** Обновление картинки в портфолио
+* req:
+    * image?: сама картинка. File (image)
+    * text?: описание картинки. String
+* resp:
+    * id: id картинки. Number
+    * image: ссылка на саму картинку. Url
+    * text: описание картинки. String
+
+
+**8) DELETE /image/int:id/delete** Удаление картинки в портфолио
+* req:
+    * -
+* resp:
+    * -

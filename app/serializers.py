@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers 
 
-from .models import Profile
+from .models import Profile, Image
 from . import views
 
 
@@ -46,10 +46,23 @@ class AuthSerializer(serializers.Serializer):
         raise serializers.ValidationError("Неверные данные")
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    # Картинки в портфолио
+
+    class Meta:
+        model = Image
+        fields = ['id', 'image', 'text']
+
+    def create(self, validated_data):
+        image = Image.objects.create(profile=self.context['request'].user.profile, **validated_data)
+        return image
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     # Профиль юзера
 
     user = UserSerializer()
+    images = ImageSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -58,7 +71,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo', 
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'verify', 'premium'
+            'images', 'verify', 'premium'
         ]
 
 
@@ -82,6 +95,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     # Изменение профиля юзера
 
     user = UserSerializer()
+    images = ImageSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -90,7 +104,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo',
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'verify', 'premium'
+            'images','verify', 'premium'
         ]
 
     def validate(self, data):

@@ -1,33 +1,29 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import (
-    UserSerializer, RegisterSerializer, 
-    AuthSerializer, ProfileSerializer,
-    ProfileCreateSerializer, ProfileUpdateSerializer
-)
-from .models import Profile
-from .permissions import IsOwner
+from . import serializers
+from .models import Profile, Image
+from .permissions import IsOwner, IsOwnerOfImage
 
 
 class UserDetail(generics.RetrieveAPIView):
     # Получение информации о юзере
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = serializers.UserSerializer
     permission_classes = [AllowAny]
 
 
 class UserRegister(generics.GenericAPIView):
     # Регистрация юзера
 
-    serializer_class = RegisterSerializer
+    serializer_class = serializers.RegisterSerializer
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -37,7 +33,7 @@ class UserRegister(generics.GenericAPIView):
         refresh = RefreshToken.for_user(user)
 
         return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "user": serializers.UserSerializer(user, context=self.get_serializer_context()).data,
             "token-access": str(refresh.access_token),
         })
 
@@ -45,7 +41,7 @@ class UserRegister(generics.GenericAPIView):
 class UserLogin(generics.GenericAPIView):
     # Вход юзера
 
-    serializer_class = AuthSerializer
+    serializer_class = serializers.AuthSerializer
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
@@ -55,7 +51,7 @@ class UserLogin(generics.GenericAPIView):
         refresh = RefreshToken.for_user(user)
 
         return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "user": serializers.UserSerializer(user, context=self.get_serializer_context()).data,
             "token-access": str(refresh.access_token),
         })
 
@@ -64,15 +60,15 @@ class ProfileCreate(generics.CreateAPIView):
     # Создание профиля юзера
 
     queryset = Profile.objects.all()
-    serializer_class = ProfileCreateSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = serializers.ProfileCreateSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ProfileDetail(generics.RetrieveAPIView):
     # Информация о профиле юзера
 
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = serializers.ProfileSerializer
     permission_classes = [AllowAny]
     lookup_field = 'user__id'
 
@@ -81,6 +77,38 @@ class ProfileUpdate(generics.UpdateAPIView):
     # Обновление профиля юзера
 
     queryset = Profile.objects.all()
-    serializer_class = ProfileUpdateSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwner]
+    serializer_class = serializers.ProfileUpdateSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
     lookup_field = 'user__id'
+
+
+class ImageCreate(generics.CreateAPIView):
+    # Создание картинки в портфолио
+
+    queryset = Image.objects.all()
+    serializer_class = serializers.ImageSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ImageDetail(generics.RetrieveAPIView):
+    # Информация о картинке в портфолио
+
+    queryset = Image.objects.all()
+    serializer_class = serializers.ImageSerializer
+    permission_classes = [AllowAny]
+
+
+class ImageUpdate(generics.UpdateAPIView):
+    # Обновление картинки в портфолио
+
+    queryset = Image.objects.all()
+    serializer_class = serializers.ImageSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOfImage]
+
+
+class ImageDelete(generics.DestroyAPIView):
+    # Удаление картинки из портфолио
+
+    queryset = Image.objects.all()
+    serializer_class = serializers.ImageSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOfImage]
