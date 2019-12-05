@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from . import serializers
-from .models import Profile, Image
+from .models import Profile, Image, Rating
 from .permissions import IsOwner, IsOwnerOfImage
 
 
@@ -112,3 +112,17 @@ class ImageDelete(generics.DestroyAPIView):
     queryset = Image.objects.all()
     serializer_class = serializers.ImageSerializer
     permission_classes = [IsAuthenticated, IsOwnerOfImage]
+
+
+class RatingAdd(generics.GenericAPIView):
+    # Отправка оценки специалисту
+
+    serializer_class = serializers.RatingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user__id):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(profile=Profile.objects.get(user__id=self.kwargs['user__id']))
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -69,12 +69,14 @@ py manage.py runserver
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
     * about: о себе. String
+    > Для специалистов
     * images: картинки в портфолио
-        * id: id картинки. Number
         * image: ссылка на саму картинку. Url
-        * text: описание картинки. String 
-    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
-    * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client") 
+        * text: описание картинки. String
+    * rating: оценки специалиста
+        * rating: сама оценка (1-5). Number 
+    * verify: верификация личности. Boolean
+    * premium: наличие премиум-аккаунта. Boolean 
 
 
 **5) PATCH /profile/int:user_id/update** Изменение профиля пользователя
@@ -117,6 +119,8 @@ py manage.py runserver
         * id: id картинки. Number
         * image: ссылка на саму картинку. Url
         * text: описание картинки. String 
+    * rating: оценки специалиста
+        * rating: сама оценка (1-5). Number 
     * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
     * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client")  
 
@@ -155,3 +159,10 @@ py manage.py runserver
     * -
 * resp:
     * -
+
+
+**9) POST /profile/int:user__id/rating/add** Добавление оценки рейтинга специалисту
+* req:
+    * rating: сама оценка (1-5). Number
+* resp:
+    * rating: оценка. Number

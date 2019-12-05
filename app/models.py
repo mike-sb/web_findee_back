@@ -39,3 +39,19 @@ class Image(models.Model):
     )
     text = models.TextField("Описание фотографии", blank=True, null=True)
     image = models.ImageField("Фотография", upload_to="portfolio_images/%Y/%m/%d")
+
+    class Meta:
+        verbose_name = "Фотография"
+        verbose_name_plural = "Фотографии"
+
+
+class Rating(models.Model):
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="rating", 
+        verbose_name="Рейтинг", blank=True, null=True
+    )
+    rating = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинги"

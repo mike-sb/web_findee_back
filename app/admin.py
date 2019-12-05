@@ -1,10 +1,15 @@
 from django.contrib import admin
 
-from .models import Profile, Image
+from .models import Profile, Image, Rating
 
 class ImageInline(admin.TabularInline):
     model = Image
     extra = 1
+
+class RatingInline(admin.TabularInline):
+    model = Rating
+    extra = 1
+
 
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -14,6 +19,6 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Контакты',         {'fields': ['regions', 'phone']}),
         ('ДЛЯ СПЕЦИАЛИСТОВ', {'fields': ['company', 'categories']}),
     ]
-    inlines = [ImageInline]
+    inlines = [ImageInline, RatingInline]
 
 admin.site.register(Profile, ProfileAdmin)

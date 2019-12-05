@@ -13,6 +13,8 @@ urlpatterns = [
     path('profile/create/', csrf_exempt(views.ProfileCreate.as_view())),
     path('profile/<int:user__id>/update/', csrf_exempt(views.ProfileUpdate.as_view())),
 
+    path('profile/<int:user__id>/rating/add/', csrf_exempt(views.RatingAdd.as_view())),
+
     path('image/<int:pk>/', views.ImageDetail.as_view(), name="image-detail"),
     path('image/create/', views.ImageCreate.as_view(), name="image-create"),
     path('image/<int:pk>/update/', views.ImageUpdate.as_view(), name="image-update"),

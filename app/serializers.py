@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers 
 
-from .models import Profile, Image
+from .models import Profile, Image, Rating
 from . import views
 
 
@@ -51,11 +51,19 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = ['id', 'image', 'text']
+        fields = ['image', 'text']
 
     def create(self, validated_data):
         image = Image.objects.create(profile=self.context['request'].user.profile, **validated_data)
         return image
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    # Рейтинг специалистов
+
+    class Meta:
+        model = Rating
+        fields = ['rating']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -63,6 +71,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
     images = ImageSerializer(many=True)
+    rating = RatingSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -71,7 +80,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo', 
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'images', 'verify', 'premium'
+            'images', 'rating', 'verify', 
+            'premium'
         ]
 
 
@@ -96,6 +106,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
     images = ImageSerializer(many=True)
+    rating = RatingSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -104,11 +115,12 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo',
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'images','verify', 'premium'
+            'images', 'rating', 'verify', 
+            'premium'
         ]
 
     def validate(self, data):
-        ban = ['name', 'surname', 'patronymic', 'birth_date', 'premium']
+        ban = ['name', 'surname', 'patronymic', 'birth_date']
         
         if self.context['request'].user.profile.verify:
             for field in ban:
