@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers 
 
-from .models import Profile, Image, Rating
+from .models import Profile, Image, Rating, Comment
 from . import views
 
 
@@ -66,12 +66,39 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = ['rating']
 
 
+class CommentCreateSerializer(serializers.ModelSerializer):
+    # Создание отзыва специалиста
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+
+class ProfileFromComment(serializers.ModelSerializer):
+    # Для выявления ФИО клиента оставившего отзыв
+
+    class Meta:
+        model = Profile
+        fields = ['name', 'surname', 'patronymic']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    # Отзывы специалистов
+
+    from_profile = ProfileFromComment()
+
+    class Meta:
+        model = Comment
+        fields = ['from_profile', 'text']
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     # Профиль юзера
 
     user = UserSerializer()
     images = ImageSerializer(many=True)
     rating = RatingSerializer(many=True)
+    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -80,8 +107,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo', 
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'images', 'rating', 'verify', 
-            'premium'
+            'images', 'rating', 'comments', 
+            'verify', 'premium'
         ]
 
 
@@ -107,6 +134,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     images = ImageSerializer(many=True)
     rating = RatingSerializer(many=True)
+    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -115,8 +143,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'patronymic', 'birth_date', 'photo',
             'kind', 'regions', 'phone', 
             'company', 'categories', 'about',
-            'images', 'rating', 'verify', 
-            'premium'
+            'images', 'rating', 'comments', 
+            'verify', 'premium'
         ]
 
     def validate(self, data):

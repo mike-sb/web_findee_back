@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from .choices import CATEGORIES, KIND_CHOICES
@@ -50,8 +51,24 @@ class Rating(models.Model):
         Profile, on_delete=models.CASCADE, related_name="rating", 
         verbose_name="Рейтинг", blank=True, null=True
     )
-    rating = models.IntegerField()
+    rating = models.IntegerField("Оценка")
 
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
+
+
+class Comment(models.Model):
+    from_profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE,
+        verbose_name="Клиент", blank=True, null=True
+    )
+    to_profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="comments", 
+        verbose_name="Специалист", blank=True, null=True
+    )
+    text = models.TextField("Текст")
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"

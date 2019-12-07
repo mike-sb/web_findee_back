@@ -69,12 +69,17 @@ py manage.py runserver
     * company: организация. String (null для пользователей с kind == "client")
     * categories: категории. String (null для пользователей с kind == "client")
     * about: о себе. String
-    > Для специалистов
     * images: картинки в портфолио
         * image: ссылка на саму картинку. Url
         * text: описание картинки. String
     * rating: оценки специалиста
         * rating: сама оценка (1-5). Number 
+    * comments: отзывы клиентов
+        * from_profile: клиент оставивший отзыв. Obj
+            * name: имя пользователя. String
+            * surname: фамилия. String
+            * patronymic: отчество. String
+        * text: сам отзыв. String
     * verify: верификация личности. Boolean
     * premium: наличие премиум-аккаунта. Boolean 
 
@@ -121,6 +126,12 @@ py manage.py runserver
         * text: описание картинки. String 
     * rating: оценки специалиста
         * rating: сама оценка (1-5). Number 
+    * comments: отзывы клиентов
+        * from_profile: клиент оставивший отзыв. Obj
+            * name: имя пользователя. String
+            * surname: фамилия. String
+            * patronymic: отчество. String
+        * text: сам отзыв. String
     * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
     * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client")  
 
@@ -166,3 +177,10 @@ py manage.py runserver
     * rating: сама оценка (1-5). Number
 * resp:
     * rating: оценка. Number
+
+
+**10) POST /profile/int:user__id/comment/add** Добавление отзыва специалисту
+* req:
+    * text: отзыв. String
+* resp:
+    * text: отзыв. String

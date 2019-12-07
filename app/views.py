@@ -17,7 +17,7 @@ class UserDetail(generics.RetrieveAPIView):
 
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class UserRegister(generics.GenericAPIView):
@@ -69,7 +69,7 @@ class ProfileDetail(generics.RetrieveAPIView):
 
     queryset = Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'user__id'
 
 
@@ -95,7 +95,7 @@ class ImageDetail(generics.RetrieveAPIView):
 
     queryset = Image.objects.all()
     serializer_class = serializers.ImageSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class ImageUpdate(generics.UpdateAPIView):
@@ -124,5 +124,22 @@ class RatingAdd(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(profile=Profile.objects.get(user__id=self.kwargs['user__id']))
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CommentAdd(generics.GenericAPIView):
+    # Добавление отзыва о специалисте
+
+    serializer_class = serializers.CommentCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user__id):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(
+            from_profile=request.user.profile, 
+            to_profile=Profile.objects.get(user__id=self.kwargs['user__id'])
+        )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
