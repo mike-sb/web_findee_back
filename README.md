@@ -72,7 +72,7 @@ py manage.py runserver
     * images: картинки в портфолио
         * image: ссылка на саму картинку. Url
         * text: описание картинки. String
-    * rating: оценки специалиста
+    * rating: оценки специалиста. Array
         * rating: сама оценка (1-5). Number 
     * comments: отзывы клиентов
         * from_profile: клиент оставивший отзыв. Obj
@@ -124,7 +124,7 @@ py manage.py runserver
         * id: id картинки. Number
         * image: ссылка на саму картинку. Url
         * text: описание картинки. String 
-    * rating: оценки специалиста
+    * rating: оценки специалиста. Array
         * rating: сама оценка (1-5). Number 
     * comments: отзывы клиентов
         * from_profile: клиент оставивший отзыв. Obj

@@ -12,8 +12,8 @@ class Profile(models.Model):
     patronymic = models.CharField("Отчество", max_length=30)
     birth_date = models.DateField("Дата рождения")
     photo = models.ImageField("Главное фото", upload_to="profile_photo/%Y/%m/%d", default="default.jpg")
-    kind = models.CharField("Клиент или специалист", max_length=20, choices=KIND_CHOICES)
-    regions = models.CharField("Регионы", max_length=100)
+    role = models.CharField("Клиент или специалист", max_length=20, choices=KIND_CHOICES)
+    city = models.CharField("Регионы", max_length=100)
     phone = models.CharField("Телефон", max_length=15)
 
     # Дополнительно
@@ -59,7 +59,7 @@ class Rating(models.Model):
 
 
 class Comment(models.Model):
-    from_profile = models.ForeignKey(
+    author = models.ForeignKey(
         Profile, on_delete=models.CASCADE,
         verbose_name="Клиент", blank=True, null=True
     )

@@ -69,7 +69,7 @@ class ProfileDetail(generics.RetrieveAPIView):
 
     queryset = Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'user__id'
 
 
@@ -138,7 +138,7 @@ class CommentAdd(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(
-            from_profile=request.user.profile, 
+            author=request.user.profile, 
             to_profile=Profile.objects.get(user__id=self.kwargs['user__id'])
         )
 

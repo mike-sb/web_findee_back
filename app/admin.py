@@ -19,9 +19,9 @@ class CommentInline(admin.TabularInline):
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Юзер',             {'fields': ['user', 'verify', 'premium']}),
-        ('Главное',          {'fields': ['name', 'surname', 'patronymic', 'birth_date', 'photo', 'kind']}),
+        ('Главное',          {'fields': ['name', 'surname', 'patronymic', 'birth_date', 'photo', 'role']}),
         ('Дополнительно',    {'fields': ['about']}),
-        ('Контакты',         {'fields': ['regions', 'phone']}),
+        ('Контакты',         {'fields': ['city', 'phone']}),
         ('ДЛЯ СПЕЦИАЛИСТОВ', {'fields': ['company', 'categories']}),
     ]
     inlines = [ImageInline, RatingInline, CommentInline]

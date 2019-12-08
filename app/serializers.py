@@ -85,11 +85,11 @@ class ProfileFromComment(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     # Отзывы специалистов
 
-    from_profile = ProfileFromComment()
+    author = ProfileFromComment()
 
     class Meta:
         model = Comment
-        fields = ['from_profile', 'text']
+        fields = ['author', 'text']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -97,15 +97,18 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
     images = ImageSerializer(many=True)
-    rating = RatingSerializer(many=True)
+    rating = serializers.SerializerMethodField()
     comments = CommentSerializer(many=True)
+
+    def get_rating(self, profile):
+        return [pr.rating for pr in profile.rating.all()]
 
     class Meta:
         model = Profile
         fields = [
             'user', 'name', 'surname', 
             'patronymic', 'birth_date', 'photo', 
-            'kind', 'regions', 'phone', 
+            'role', 'city', 'phone', 
             'company', 'categories', 'about',
             'images', 'rating', 'comments', 
             'verify', 'premium'
@@ -119,7 +122,7 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'name', 'surname', 'patronymic', 
-            'birth_date', 'kind', 'regions', 
+            'birth_date', 'role', 'city', 
             'phone', 'company', 'categories'
         ]
 
@@ -133,15 +136,18 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
     images = ImageSerializer(many=True)
-    rating = RatingSerializer(many=True)
+    rating = serializers.SerializerMethodField()
     comments = CommentSerializer(many=True)
+
+    def get_rating(self, profile):
+        return [pr.rating for pr in profile.rating.all()]
 
     class Meta:
         model = Profile
         fields = [
             'user', 'name', 'surname', 
             'patronymic', 'birth_date', 'photo',
-            'kind', 'regions', 'phone', 
+            'role', 'city', 'phone', 
             'company', 'categories', 'about',
             'images', 'rating', 'comments', 
             'verify', 'premium'
