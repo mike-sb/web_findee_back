@@ -34,8 +34,8 @@ py manage.py runserver
     * surname: фамилия. String
     * patronymic: отчество. String
     * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
-    * kind: класс ("client" или "specialist"). String
-    * regions: регион(-ы). String
+    * role: класс ("client" или "specialist"). String
+    * city: регион(-ы). String
     * phone: номер телефона. String
     * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
     * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
@@ -44,11 +44,11 @@ py manage.py runserver
     * surname: фамилия. String
     * patronymic: отчество. String
     * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
-    * kind: класс ("client" или "specialist"). String
-    * regions: регион(-ы). String
+    * role: класс ("client" или "specialist"). String
+    * city: регион(-ы). String
     * phone: номер телефона. String
-    * company: организация. String (null для пользователей с kind == "client")
-    * categories: категории. String (null для пользователей с kind == "client")
+    * company: организация. String (null для пользователей с role == "client")
+    * categories: категории. String (null для пользователей с role == "client")
 
 
 **4) GET /profile/int:user_id/** Данные о профиле пользователя
@@ -63,11 +63,11 @@ py manage.py runserver
     * patronymic: отчество. String
     * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
     * photo: аватарка пользователя. Url
-    * kind: класс ("client" или "specialist"). String
-    * regions: регион(-ы). String
+    * role: класс ("client" или "specialist"). String
+    * city: регион(-ы). String
     * phone: номер телефона. String
-    * company: организация. String (null для пользователей с kind == "client")
-    * categories: категории. String (null для пользователей с kind == "client")
+    * company: организация. String (null для пользователей с role == "client")
+    * categories: категории. String (null для пользователей с role == "client")
     * about: о себе. String
     * images: картинки в портфолио
         * image: ссылка на саму картинку. Url
@@ -75,7 +75,7 @@ py manage.py runserver
     * rating: оценки специалиста. Array
         * rating: сама оценка (1-5). Number 
     * comments: отзывы клиентов
-        * from_profile: клиент оставивший отзыв. Obj
+        * author: клиент оставивший отзыв. Obj
             * name: имя пользователя. String
             * surname: фамилия. String
             * patronymic: отчество. String
@@ -93,8 +93,8 @@ py manage.py runserver
     * patronymic?: отчество. String
     * birth_date?: дата рождения. String. в формате ГГГГ-ММ-ДД
     * photo?: аватарка пользователя. File (image)
-    * kind?: класс ("client" или "specialist"). String
-    * regions?: регион(-ы). String
+    * role?: класс ("client" или "specialist"). String
+    * city?: регион(-ы). String
     * phone?: номер телефона. String
     * company?: организация. String | ДЛЯ СПЕЦИАЛИСТОВ
     * categories?: категории. String | ДЛЯ СПЕЦИАЛИСТОВ
@@ -114,11 +114,11 @@ py manage.py runserver
     * patronymic: отчество. String
     * birth_date: дата рождения. String. в формате ГГГГ-ММ-ДД
     * photo: аватарка пользователя. Url
-    * kind: класс ("client" или "specialist"). String
-    * regions: регион(-ы). String
+    * role: класс ("client" или "specialist"). String
+    * city: регион(-ы). String
     * phone: номер телефона. String
-    * company: организация. String (null для пользователей с kind == "client")
-    * categories: категории. String (null для пользователей с kind == "client")
+    * company: организация. String (null для пользователей с role == "client")
+    * categories: категории. String (null для пользователей с role == "client")
     * about: о себе. String
     * images: картинки в портфолио
         * id: id картинки. Number
@@ -127,13 +127,13 @@ py manage.py runserver
     * rating: оценки специалиста. Array
         * rating: сама оценка (1-5). Number 
     * comments: отзывы клиентов
-        * from_profile: клиент оставивший отзыв. Obj
+        * author: клиент оставивший отзыв. Obj
             * name: имя пользователя. String
             * surname: фамилия. String
             * patronymic: отчество. String
         * text: сам отзыв. String
-    * verify: верификация личности. Boolean (всегда false для пользователей с kind == "client")
-    * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с kind == "client")  
+    * verify: верификация личности. Boolean (всегда false для пользователей с role == "client")
+    * premium: наличие премиум-аккаунта. Boolean (всегда false для пользователей с role == "client")  
 
 
 **6) POST /image/create** Создание картинки в портфолио специалиста
